@@ -1,27 +1,30 @@
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
     @Get()
     findAll() {
-        return 'This action returns all products';
+        return `This action returns all products`;
     }
 
     @Get(':id')
     findOne(@Param('id') id: string){
-    return 'This action returns product #${id}';
+    return `This action returns product #${id}`;
     }
 
     @Post()
     create(@Body() body: any) {
-        return 'This action creates a product';
+        return `This action creates a product`;
     }
 
     @Put(':id')
     update(@Param('id') id: string, @Body() body: any) {
-        return 'This action updates product #${id}';
+        return `This action updates product #${id}`;
     }
 
-    
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return `This action removes product #${id}`;
+    }
 
 }
