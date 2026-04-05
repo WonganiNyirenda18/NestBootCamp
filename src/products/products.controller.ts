@@ -21,6 +21,7 @@ export class ProductsController {
     update(@Param('id') id: string, @Body() body: any) {
         return 'This action updates product #${id}';
     }
+
     
 
 }
