@@ -10,4 +10,22 @@ export class ProductsService {
     findAll() {
         return this.products
     }
+    findOne(id: number){
+        return this.products.find(p=> p.id === id);
+    }
+    create(product: any){
+        const newProduct = {id: Date.now(), ...product};
+        this.products.push(newProduct);
+        return newProduct;
+    }
+    update(id: number, product: any){
+        const index = this.products.findIndex(p => p.id === id);
+        if(index >= 0){
+            this.products[index] = {...this.products[index],...product};
+            return this.products[index];
+        }
+        return null;
+    }
+
+
 }

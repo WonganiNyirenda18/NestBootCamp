@@ -1,13 +1,17 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {
-    @Get()
+
+    constructor(private readonly productsService : ProductsService){}
+
+    @Get() //GET
     findAll() {
         return `This action returns all products`;
     }
 
-    @Get(':id')
+    @Get(':id') //GET http://localhost/products/id
     findOne(@Param('id') id: string){
     return `This action returns product #${id}`;
     }
