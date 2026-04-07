@@ -6,44 +6,38 @@ import { CreateProductDto } from './dtos/create-product.dto';
 
 @Injectable()
 export class ProductsService {
-    constructor(
-        @InjectRepository(Product)
-        private productRepository: Repository<Product>
-    ) {}
+  constructor(
+    @InjectRepository(Product)
+    private productRepository: Repository<Product>,
+  ) {}
 
-    async findAll(): Promise<Product[]> {
-        return await this.productRepository.find();
-    }
+  async findAll(): Promise<Product[]> {
+    return await this.productRepository.find();
+  }
 
-    async findOne(productId: number) : Promise<Product> {
-        const product = await this.productRepository.findOne({where: {id: productId}})
-        if (!product) {
-            throw new NotFoundException(`Product #${productId} not found`);
-        }
-        return product;
+  async findOne(productId: number): Promise<Product> { 
+    // SELECT * FROM products WHERE id = productId
+    const product = await this.productRepository.findOne({ where: { id: productId } });
+    if (!product) {
+      throw new NotFoundException(`Product #${productId} not found`);
     }
+    return product;
+  }
 
-    create(createProduct)
+  create(createProductDto: CreateProductDto): Promise<Product> {
+    const product = this.productRepository.create(createProductDto);
+    return this.productRepository.save(product);
+  }
 
-    findAll() {
-        return this.products
-    }
-    findOne(id: number){
-        return this.products.find(p=> p.id === id);
-    }
-    create(product: any){
-        const newProduct = {id: Date.now(), ...product};
-        this.products.push(newProduct);
-        return newProduct;
-    }
-    update(id: number, product: any){
-        const index = this.products.findIndex(p => p.id === id);
-        if(index >= 0){
-            this.products[index] = {...this.products[index],...product};
-            return this.products[index];
-        }
-        return null;
-    }
+  async update(
+    id: number,
+    updateProductDto: Partial<CreateProductDto>,
+  ): Promise<Product> {
+    await this.productRepository.update(id, updateProductDto);
+    return this.findOne(id);
+  }
 
-
+  async remove(id: number): Promise<void> {
+    await this.productRepository.delete(id);
+  }
 }
