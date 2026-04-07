@@ -1,7 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from './entities/product.entity';
+import { CreateProductDto } from './dtos/create-product.dto';
 
 @Injectable()
 export class ProductsService {
+    constructor(
+        @InjectRepository(Product)
+        private productRepository: Repository<Product>
+    )
     private products = [
         {id: 1, name: 'Laptop', price: 999.99},
         {id: 2, name: 'Phone', price: 699.99},
